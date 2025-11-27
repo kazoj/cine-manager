@@ -34,14 +34,14 @@ def index():
     conn = get_db_connection()
     cur = conn.cursor()
     
-    # On récupère tous les films
+  
     cur.execute('SELECT id_film, titre, duree, studio FROM Film;')
     films = cur.fetchall()
     
     cur.close()
     conn.close()
     
-    # On envoie les films à la page HTML
+  
     return render_template('index.html', liste_films=films)
 
 @app.route('/film/<int:id_film>')
@@ -83,8 +83,7 @@ def login():
         conn = get_db_connection()
         cur = conn.cursor()
         
-        # On vérifie l'email et le mot de passe (Attention: ici en clair pour ton projet)
-        # On récupère l'ID et le PRÉNOM (via la table Individu)
+        
         cur.execute("""
             SELECT c.id_client, i.prenom 
             FROM Client c
@@ -97,19 +96,19 @@ def login():
         conn.close()
         
         if user:
-            # SUCCÈS : On stocke les infos dans la session du navigateur
+        
             session['user_id'] = user[0]
             session['prenom'] = user[1]
             return redirect(url_for('index'))
         else:
-            # ÉCHEC
+        
             flash("Email ou mot de passe incorrect !", "danger")
             
     return render_template('login.html')
 
 @app.route('/logout')
 def logout():
-    session.clear() # On vide la session
+    session.clear() 
     return redirect(url_for('index'))
 @app.route('/dashboard')
 def dashboard():
@@ -119,7 +118,7 @@ def dashboard():
     conn = get_db_connection()
     cur = conn.cursor()
     
-    # Requête complexe : On veut l'ID reservation, le titre du film, la date/heure séance, la validité et la salle
+    
     cur.execute("""
         SELECT r.id_reservation, f.titre, s.date, s.heure, 
                CASE WHEN r.validite THEN 'Valide' ELSE 'Utilisé/Expiré' END,
@@ -148,7 +147,7 @@ def reserver(id_seance):
     cur = conn.cursor()
     
     try:
-        # 1. Vérifier s'il reste de la place
+    
         cur.execute("SELECT places_disponibles FROM Seance WHERE id_seance = %s", (id_seance,))
         places = cur.fetchone()[0]
         
@@ -156,26 +155,25 @@ def reserver(id_seance):
             flash("Désolé, cette séance est complète !", "danger")
             return redirect(url_for('index'))
 
-        # 2. Générer un ID de billet (Random 6 chiffres pour faire simple)
-        # Dans la vraie vie, on utiliserait une SEQUENCE SQL
+        
         id_ticket = random.randint(100000, 999999)
         
-        # 3. Créer la réservation
+       
         today = date.today()
         cur.execute("""
             INSERT INTO Reservation (id_reservation, date_reservation, validite, id_seance, id_client)
             VALUES (%s, %s, TRUE, %s, %s)
         """, (id_ticket, today, id_seance, session['user_id']))
         
-        # 4. Décrémenter le nombre de places
+
         cur.execute("UPDATE Seance SET places_disponibles = places_disponibles - 1 WHERE id_seance = %s", (id_seance,))
         
-        conn.commit() # On valide la transaction
+        conn.commit() 
         flash(f"Réservation réussie ! Votre billet est le #{id_ticket}", "success")
         return redirect(url_for('dashboard'))
         
     except Exception as e:
-        conn.rollback() # On annule si erreur
+        conn.rollback() 
         print(e)
         flash("Une erreur technique est survenue.", "danger")
         return redirect(url_for('index'))
