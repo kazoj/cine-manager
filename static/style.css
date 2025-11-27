@@ -1,0 +1,110 @@
+/* --- IMPORT POLICE GOOGLE --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* --- GENERAL --- */
+body {
+    background-color: #141414; /* Noir Netflix */
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+}
+
+a { text-decoration: none; }
+
+/* --- NAVBAR --- */
+.navbar {
+    background-color: #000000 !important; /* Noir profond */
+    border-bottom: 1px solid #333;
+}
+.navbar-brand {
+    font-weight: 700;
+    color: #E50914 !important; /* Rouge Cinéma */
+    font-size: 1.5rem;
+}
+
+/* --- CARTES FILMS --- */
+.card-film {
+    background-color: #1f1f1f;
+    border: none;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.card-film:hover {
+    transform: scale(1.05); /* Petit zoom au survol */
+    box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3); /* Ombre rouge */
+    z-index: 10;
+}
+
+.card-body { color: #ddd; }
+.card-title { color: #fff; font-weight: 600; }
+
+/* --- BOUTONS --- */
+.btn-primary {
+    background-color: #E50914;
+    border: none;
+    font-weight: 600;
+}
+.btn-primary:hover { background-color: #b20710; }
+
+/* --- HERO SECTION (Bannière Accueil) --- */
+.hero {
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1000&q=80');
+    background-size: cover;
+    background-position: center;
+    padding: 100px 0;
+    border-radius: 0 0 20px 20px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+/* --- DESIGN DU VRAI TICKET (Dashboard) --- */
+.ticket {
+    background-color: #fff;
+    color: #000;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    border-left: 8px solid #E50914;
+}
+.ticket-header {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-bottom: 2px dashed #ccc;
+    font-weight: bold;
+}
+.ticket-body { padding: 15px; }
+.qr-placeholder {
+    background-color: #000;
+    color: #fff;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    border-radius: 4px;
+}
+
+.card-detail {
+    background-color: #1f1f1f;
+    border: 1px solid #333;
+    color: #fff;
+}
+
+.session-item {
+    background-color: #141414; 
+    border: 1px solid #333;
+    color: #fff;
+    transition: background-color 0.2s;
+}
+
+.session-item:hover {
+    background-color: #2c2c2c; 
+}
+
+.badge-places {
+    background-color: #333;
+    color: #E50914; 
+    border: 1px solid #E50914;
+}
