@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mes Billets</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar navbar-dark mb-5">
+        <div class="container">
+            <a class="navbar-brand" href="/">🍿 CinéManager</a>
+            <a href="/" class="btn btn-outline-light btn-sm">Retour accueil</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 class="mb-4">🎫 Mes Réservations</h2>
+
+        {% if billets %}
+        <div class="row">
+            {% for billet in billets %}
+            <div class="col-lg-6 mb-4">
+                <div class="ticket shadow-sm d-flex">
+                    <div class="flex-grow-1">
+                        <div class="ticket-header d-flex justify-content-between">
+                            <span>Billet #{{ billet[0] }}</span>
+                            {% if billet[4] == 'Valide' %}
+                                <span class="badge bg-success">VALIDE</span>
+                            {% else %}
+                                <span class="badge bg-secondary">UTILISÉ</span>
+                            {% endif %}
+                        </div>
+                        <div class="ticket-body">
+                            <h4 class="mb-1">{{ billet[1] }}</h4>
+                            <p class="mb-0 text-muted">📅 {{ billet[2] }} à {{ billet[3] }}</p>
+                            <p class="mb-0 text-danger fw-bold">📍 Salle : {{ billet[5] }}</p>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column align-items-center justify-content-center p-3 bg-light border-start border-dashed">
+                        <div class="mb-2">
+                            <img src="data:image/png;base64,{{ billet[0] | qr_base64 }}" width="80" height="80" alt="QR Code">
+                        </div>
+                        <small class="fw-bold">{{ billet[0] }}</small>
+                        <small class="fw-bold">{{ billet[0] }}</small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+            <div class="text-center mt-5">
+                <p class="lead">Vous n'avez pas encore de billets.</p>
+                <a href="/" class="btn btn-primary">Voir les films</a>
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>

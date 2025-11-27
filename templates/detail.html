@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ film[0] }} - Détails</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar navbar-dark mb-5">
+        <div class="container">
+            <a class="navbar-brand" href="/">🍿 CinéManager</a>
+            <div class="d-flex">
+                <a href="/" class="btn btn-outline-light btn-sm">← Retour aux films</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <div class="card card-detail shadow-lg mb-5">
+            <div class="row g-0">
+                <div class="col-md-4 d-flex align-items-center justify-content-center bg-black text-secondary" style="min-height: 300px;">
+                    <div class="text-center">
+                        <span style="font-size: 4rem;">🎬</span>
+                        <p class="mt-2">Affiche du film</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-8">
+                    <div class="card-body p-4">
+                        <h1 class="card-title display-5 fw-bold mb-3">{{ film[0] }}</h1>
+                        
+                        <div class="row mb-4">
+                            <div class="col-6">
+                                <p class="text-muted mb-1">Studio</p>
+                                <h5>{{ film[2] }}</h5>
+                            </div>
+                            <div class="col-6">
+                                <p class="text-muted mb-1">Sortie</p>
+                                <h5>{{ film[4] }}</h5>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="text-muted mb-1">Nationalité</p>
+                                <p class="fw-bold">{{ film[3] }}</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="text-muted mb-1">Durée</p>
+                                <p class="fw-bold">{{ film[1] }} min</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="mb-4 border-start border-4 border-danger ps-3">Séances disponibles</h3>
+        
+        {% if seances %}
+        <div class="list-group">
+            {% for seance in seances %}
+            <div class="list-group-item session-item d-flex justify-content-between align-items-center mb-2 rounded">
+                
+                <div class="d-flex align-items-center">
+                    <div class="me-4 text-center border-end border-secondary pe-4">
+                        <h4 class="mb-0 text-danger fw-bold">{{ seance[2].strftime('%H:%M') }}</h4> <small class="text-muted">{{ seance[1].strftime('%d/%m') }}</small> </div>
+                    <div>
+                        <h5 class="mb-0">Salle {{ seance[3] }}</h5>
+                        <span class="badge badge-places rounded-pill">{{ seance[4] }} places</span>
+                    </div>
+                </div>
+                
+                <div>
+                    {% if session.get('user_id') %}
+                        <a href="{{ url_for('reserver', id_seance=seance[0]) }}" class="btn btn-primary">
+                            Réserver
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-secondary btn-sm">
+                            Connectez-vous
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+            <div class="p-5 text-center card-detail rounded">
+                <h3 class="text-muted">😕 Aucune séance programmée.</h3>
+                <p>Revenez plus tard !</p>
+            </div>
+        {% endif %}
+        
+        <div class="mb-5"></div> </div>
+
+</body>
+</html>
